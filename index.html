@@ -47,6 +47,7 @@
             transparent 28%
           ),
           linear-gradient(180deg, #f7f1e7 0%, #efe6d6 100%);
+        overflow-x: hidden;
       }
 
       body::before {
@@ -63,6 +64,21 @@
           rgba(0, 0, 0, 0.4),
           transparent 85%
         );
+        opacity: 0.7;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: -12%;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.55), transparent 18%),
+          radial-gradient(circle at 82% 18%, rgba(239, 131, 84, 0.22), transparent 24%),
+          radial-gradient(circle at 68% 72%, rgba(122, 168, 116, 0.2), transparent 26%);
+        filter: blur(24px);
+        opacity: 0.9;
+        animation: driftBackdrop 16s ease-in-out infinite alternate;
       }
 
       button,
@@ -72,6 +88,8 @@
       }
 
       .container {
+        position: relative;
+        z-index: 1;
         width: min(1120px, calc(100% - 32px));
         margin: 0 auto;
         padding: 40px 0 56px;
@@ -95,6 +113,23 @@
           rgba(255, 245, 228, 0.8)
         );
         box-shadow: var(--shadow);
+        opacity: 0;
+        animation: revealUp 760ms cubic-bezier(0.2, 0.9, 0.2, 1) 80ms forwards;
+      }
+
+      .hero-card::before {
+        content: "";
+        position: absolute;
+        inset: auto -12% -36% auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.68),
+          rgba(255, 255, 255, 0) 72%
+        );
+        animation: glowOrbit 9s ease-in-out infinite;
       }
 
       .hero-card::after {
@@ -110,6 +145,7 @@
           rgba(239, 131, 84, 0.24),
           transparent 70%
         );
+        animation: glowFloat 8s ease-in-out infinite alternate;
       }
 
       .eyebrow {
@@ -118,7 +154,7 @@
         gap: 8px;
         padding: 8px 12px;
         border-radius: 999px;
-        background: red;
+        background: rgba(255, 255, 255, 0.6);
         color: var(--muted);
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -163,6 +199,15 @@
         background: rgba(255, 255, 255, 0.58);
         color: var(--ink);
         font-size: 0.9rem;
+        animation: chipFloat 4.8s ease-in-out infinite;
+      }
+
+      .hero-foot .chip:nth-child(2) {
+        animation-delay: 140ms;
+      }
+
+      .hero-foot .chip:nth-child(3) {
+        animation-delay: 280ms;
       }
 
       .layout {
@@ -179,6 +224,17 @@
         background: var(--card);
         border: 1px solid rgba(255, 255, 255, 0.5);
         box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(24px);
+        animation: revealUp 720ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+      }
+
+      .layout > .panel:first-child {
+        animation-delay: 160ms;
+      }
+
+      .layout > .panel:last-child {
+        animation-delay: 260ms;
       }
 
       .panel h2 {
@@ -204,6 +260,15 @@
         border-radius: 20px;
         background: var(--card-strong);
         border: 1px solid var(--line);
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          background 220ms ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 28px rgba(55, 39, 25, 0.11);
       }
 
       .stat-label {
@@ -242,13 +307,30 @@
         background: rgba(111, 100, 87, 0.14);
       }
 
+      .progress-bar::after {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 -38%;
+        width: 34%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.55),
+          transparent
+        );
+        animation: progressSweep 2.8s linear infinite;
+      }
+
       .progress-bar span {
         display: block;
         height: 100%;
         width: 0;
         border-radius: inherit;
         background: linear-gradient(90deg, var(--fresh), #a8d198);
-        transition: width 220ms ease;
+        box-shadow: 0 0 18px rgba(122, 168, 116, 0.28);
+        transition:
+          width 280ms ease,
+          box-shadow 280ms ease;
       }
 
       .field {
@@ -314,6 +396,9 @@
       }
 
       button {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
         cursor: pointer;
         border: none;
         border-radius: 999px;
@@ -324,8 +409,32 @@
           background 180ms ease;
       }
 
+      button::after {
+        content: "";
+        position: absolute;
+        inset: -2px auto -2px -42%;
+        width: 36%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.58),
+          transparent
+        );
+        transform: skewX(-22deg) translateX(-220%);
+        opacity: 0;
+        transition:
+          transform 420ms ease,
+          opacity 220ms ease;
+        pointer-events: none;
+      }
+
       button:hover {
         transform: translateY(-1px);
+      }
+
+      button:hover::after {
+        opacity: 1;
+        transform: skewX(-22deg) translateX(440%);
       }
 
       button:focus-visible {
@@ -368,6 +477,7 @@
         color: var(--ink);
         background: var(--accent-soft);
         border-color: rgba(239, 131, 84, 0.32);
+        box-shadow: 0 14px 22px rgba(239, 131, 84, 0.14);
       }
 
       .list {
@@ -384,6 +494,20 @@
         border-radius: 22px;
         background: var(--card-strong);
         border: 1px solid var(--line);
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+        animation: itemIn 520ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+        animation-delay: var(--item-delay, 0ms);
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          background 220ms ease,
+          border-color 220ms ease;
+      }
+
+      .item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 28px rgba(55, 39, 25, 0.1);
       }
 
       .item.is-purchased {
@@ -405,6 +529,7 @@
 
       .item.is-purchased .item-check {
         background: var(--fresh-soft);
+        animation: popPulse 360ms ease;
       }
 
       .item-check button {
@@ -494,12 +619,17 @@
         font-size: 0.92rem;
       }
 
+      .status:not(:empty) {
+        animation: statusRise 280ms ease;
+      }
+
       .empty-state {
         padding: 28px;
         border-radius: 22px;
         border: 1px dashed rgba(111, 100, 87, 0.28);
         background: rgba(255, 255, 255, 0.5);
         text-align: center;
+        animation: revealUp 360ms ease forwards;
       }
 
       .empty-state strong {
@@ -515,6 +645,14 @@
         background: rgba(255, 255, 255, 0.55);
         color: var(--muted);
         line-height: 1.6;
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease;
+      }
+
+      .inline-note:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 26px rgba(55, 39, 25, 0.08);
       }
 
       .visually-hidden {
@@ -527,6 +665,117 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
+      }
+
+      @keyframes revealUp {
+        from {
+          opacity: 0;
+          transform: translateY(26px) scale(0.985);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes chipFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      @keyframes driftBackdrop {
+        0% {
+          transform: translate3d(-2%, -1%, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(1%, 2%, 0) scale(1.05);
+        }
+        100% {
+          transform: translate3d(3%, -2%, 0) scale(1.08);
+        }
+      }
+
+      @keyframes glowOrbit {
+        0% {
+          transform: translate3d(0, 0, 0) scale(0.95);
+          opacity: 0.3;
+        }
+        50% {
+          transform: translate3d(-10px, -14px, 0) scale(1.05);
+          opacity: 0.55;
+        }
+        100% {
+          transform: translate3d(8px, 8px, 0) scale(1);
+          opacity: 0.34;
+        }
+      }
+
+      @keyframes glowFloat {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(-12px, 14px, 0) scale(1.12);
+        }
+      }
+
+      @keyframes progressSweep {
+        0% {
+          transform: translateX(-130%);
+        }
+        100% {
+          transform: translateX(420%);
+        }
+      }
+
+      @keyframes itemIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.985);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes popPulse {
+        0% {
+          transform: scale(0.92);
+        }
+        65% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes statusRise {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
       }
 
       @media (max-width: 960px) {
@@ -1111,10 +1360,14 @@
 
         const fragment = document.createDocumentFragment();
 
-        filteredItems.forEach((item) => {
+        filteredItems.forEach((item, index) => {
           const node = itemTemplate.content.firstElementChild.cloneNode(true);
           node.dataset.id = item.id;
           node.classList.toggle("is-purchased", item.purchased);
+          node.style.setProperty(
+            "--item-delay",
+            `${Math.min(index * 70, 280)}ms`,
+          );
 
           const title = node.querySelector("h3");
           const note = node.querySelector(".item-note");
